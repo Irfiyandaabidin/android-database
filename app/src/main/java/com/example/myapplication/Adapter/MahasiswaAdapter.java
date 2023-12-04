@@ -1,5 +1,6 @@
 package com.example.myapplication.Adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +19,19 @@ public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaAdapter.Maha
     private List<Mahasiswa> mahasiswaList;
     private Context context;
 
+    private Dialog dialog;
+
     public MahasiswaAdapter(List<Mahasiswa> mahasiswaList, Context context) {
         this.mahasiswaList = mahasiswaList;
         this.context = context;
+    }
+
+    public interface Dialog {
+        void onClick(int position);
+    }
+
+    public void setDialog(Dialog dialog) {
+        this.dialog = dialog;
     }
 
     @NonNull
@@ -48,6 +59,15 @@ public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaAdapter.Maha
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
             tvNpm = itemView.findViewById(R.id.tvNpm);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(dialog != null) {
+                        dialog.onClick(getLayoutPosition());
+                    }
+                }
+            });
         }
     }
 }
